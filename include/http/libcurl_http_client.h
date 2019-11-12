@@ -294,7 +294,7 @@ namespace azure {  namespace storage_lite {
         }
 
         //Sets CURL CA BUNDLE location for all the curl handlers.
-        CurlEasyClient(int size, const std::string& ca_path) : m_size(size)
+        CurlEasyClient(int size, const std::string& ca_path) : m_size(size), m_caPath(ca_path)
         {
             curl_global_init(CURL_GLOBAL_DEFAULT);
             for (int i = 0; i < m_size; i++) {
@@ -327,6 +327,11 @@ namespace azure {  namespace storage_lite {
             return res;
         }
 
+	 std::string getCaPath(void)
+	 {
+	     return m_caPath;
+	 }
+
         void release_handle(CURL *h)
         {
             std::lock_guard<std::mutex> lg(m_handles_mutex);
@@ -336,6 +341,7 @@ namespace azure {  namespace storage_lite {
 
     private:
         int m_size;
+        std::string m_caPath;
         std::queue<CURL *> m_handles;
         std::mutex m_handles_mutex;
         std::condition_variable m_cv;
