@@ -18,6 +18,7 @@
 #include "storage_EXPORTS.h"
 
 #include "http_base.h"
+#include "http/probe.h"
 
 namespace azure {  namespace storage_lite {
 
@@ -216,6 +217,7 @@ namespace azure {  namespace storage_lite {
         {
             REQUEST_TYPE *p = static_cast<REQUEST_TYPE *>(userdata);
             p->m_output_stream.ostream().write(buffer, size * nitems);
+            receive_callback(size * nitems);
             return size * nitems;
         }
 
@@ -254,6 +256,8 @@ namespace azure {  namespace storage_lite {
                 actual_size = static_cast<size_t>(s.gcount());
                 p->m_input_read_pos += actual_size;
             }
+
+            send_callback(actual_size);
 
             return actual_size;
         }

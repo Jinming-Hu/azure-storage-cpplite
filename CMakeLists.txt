@@ -63,6 +63,7 @@ set(AZURE_STORAGE_LITE_HEADER
 
   include/http_base.h
   include/http/libcurl_http_client.h
+  include/http/probe.h
 
   include/blob/blob_client.h
   include/blob/download_blob_request.h
@@ -119,6 +120,7 @@ set(AZURE_STORAGE_LITE_SOURCE
   src/get_page_ranges_request_base.cpp
 
   src/http/libcurl_http_client.cpp
+  src/http/probe.cpp
 
   src/blob/blob_client.cpp
   src/blob/blob_client_wrapper.cpp
