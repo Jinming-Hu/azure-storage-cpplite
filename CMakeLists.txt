@@ -8,10 +8,6 @@ option(BUILD_SAMPLES     "Build sample codes"                OFF)
 option(BUILD_SHARED_LIBS "Request build of shared libraries" OFF)
 option(BUILD_ADLS        "Build ADLS Gen2 codes"             OFF)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-
 set(AZURE_STORAGE_LITE_HEADER
   include/storage_EXPORTS.h
 
@@ -169,7 +165,7 @@ if(BUILD_TESTS)
   endif()
 endif()
 
-target_include_directories(azure-storage-lite PUBLIC ${PROJECT_SOURCE_DIR}/include ${CURL_INCLUDE_DIRS} PRIVATE ${EXTRA_INCLUDE_DIRS})
+target_include_directories(azure-storage-lite PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE ${CURL_INCLUDE_DIRS} ${EXTRA_INCLUDE_DIRS})
 target_link_libraries(azure-storage-lite Threads::Threads ${CURL_LIBRARIES} ${EXTRA_LIBRARIES})
 
 if(MSVC)
