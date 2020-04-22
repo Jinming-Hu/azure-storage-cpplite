@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <queue>
 
 #ifndef _WIN32
 #include <sys/stat.h>

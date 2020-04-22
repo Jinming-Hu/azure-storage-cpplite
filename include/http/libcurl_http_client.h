@@ -7,7 +7,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
-#include <queue>
+#include <stack>
 #include <sstream>
 #include <string>
 #include <thread>
@@ -296,7 +296,7 @@ namespace azure {  namespace storage_lite {
         ~CurlEasyClient() {
             while (!m_handles.empty())
             {
-                curl_easy_cleanup(m_handles.front());
+                curl_easy_cleanup(m_handles.top());
                 m_handles.pop();
             }
             curl_global_cleanup();
@@ -311,7 +311,7 @@ namespace azure {  namespace storage_lite {
         {
             std::unique_lock<std::mutex> lk(m_handles_mutex);
             m_cv.wait(lk, [this]() { return !m_handles.empty(); });
-            auto res = std::make_shared<CurlEasyRequest>(shared_from_this(), m_handles.front());
+            auto res = std::make_shared<CurlEasyRequest>(shared_from_this(), m_handles.top());
             m_handles.pop();
             return res;
         }
@@ -342,7 +342,7 @@ namespace azure {  namespace storage_lite {
         int m_size;
         std::string m_capath;
         std::string m_proxy;
-        std::queue<CURL *> m_handles;
+        std::stack<CURL *> m_handles;
         std::mutex m_handles_mutex;
         std::condition_variable m_cv;
     };
